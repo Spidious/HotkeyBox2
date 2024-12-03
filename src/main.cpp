@@ -45,6 +45,7 @@ void setup() {
 
   // Set LED pinmode
   pinMode(LED_BUILTIN, OUTPUT);
+  digitalWrite(LED_BUILTIN, HIGH); // Turn onboard LED off
 }
 
 void loop() {
@@ -58,10 +59,10 @@ void loop() {
   }
 
   // Construct System Call section
-  msg |= 0b0000 << 8; // ---- ---- 0000 0000 0000 xxxx ---- ----
+  msg |= 0b0000 << 8; // ---- ---- 0000 0000 0000 xxxx ---- ---- // This is currently not doing anything
 
   // Construct Flag section
-  msg |= 0b0000 << 20; //  ---- ---- xxxx 0000 0000 0000 ---- ----
+  msg |= 0b0000 << 20; //  ---- ---- xxxx 0000 0000 0000 ---- ---- // This is currently not doing anything
 
   // construct start and finish signals
   msg |= 0xC2000043;
