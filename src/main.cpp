@@ -30,7 +30,7 @@ section e: ENDING SIGNAL
 #include <Arduino.h>
 
 // time in ms to wait before checking next button press
-#define DELAY 100
+#define DELAY 200
 
 const uint8_t BUTTON_PINS[] = {D1, D2, D5, D6, D7}; // digital pins (maximum of 8 can be used with this code)
 uint32_t msg = 0; // message sent to pc
@@ -78,6 +78,10 @@ void loop() {
 
     // Send finish signal
     Serial.write(msg & 0xFF); // 0000 0000 ---- ---- ---- ---- xxxx xxxx
+    delay(DELAY); // Delay for a short time 
   }
-  delay(DELAY); // Delay for a short time
+
+  // check every 50ms when a message is NOT sent
+  // This helps to prevent accidental miss clicks of a button but does not miss events between the DELAY interval
+  delay(50); 
 }
