@@ -10,3 +10,5 @@
 # Rust/Cargo
 driver/target
 driver/Cargo.lock
+*.exe
+*.pdb
