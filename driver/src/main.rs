@@ -40,7 +40,7 @@ fn main() {
     // Infinite Loop continuously reading serial_buf
     loop {
         // buffer to hold the information read
-        let mut serial_buf: Vec<u8> = vec![0; 32];
+        let mut serial_buf: Vec<u8> = vec![0; 1];
         
         // Read the serial info
         match serial_port.read(serial_buf.as_mut_slice()) {
@@ -49,25 +49,23 @@ fn main() {
                     continue;
                 }
 
-                // Print to terminal (Don't keep this)
-                while !serial_buf.is_empty() {
-                    // make room for new byte
-                    msg = msg << 8;
+                // make room for new byte
+                msg = msg << 8;
 
-                    // add new byte to end of msg
-                    msg |= pop_vec(&mut serial_buf) as u32;
+                // add new byte to end of msg
+                msg |= pop_vec(&mut serial_buf) as u32;
+                
+                // Check if msg contains the beginning end ending markers
+
+                if ((msg >> 24 & 0xFF) == 0xC2) && ((msg & 0xFF) == 0x43) {
+                    // Send verified message to handler
+                    message_handler(msg);
+                    println!();
                     
-                    // Check if msg contains the beginning end ending markers
+                    // Debugging print
+                    // println!("{:x}", msg);
 
-                    if (msg >> 24 & 0xFF) == 0xC2 && (msg & 0xFF) == 0x43 {
-                        // Send verified message to handler
-                        message_handler(msg);
-                        
-                        // Debugging print
-                        // println!("{:x}", msg);
-
-                        // From here the code should continue to the next round incase it caught the start or entirety of another message
-                    }
+                    // From here the code should continue to the next round incase it caught the start or entirety of another message
                 }
             }, 
             Err(e) => {
