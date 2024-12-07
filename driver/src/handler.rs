@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::fs;
+use rlua::Lua;
+
 
 // Create a macro for testing the bit at position n
 macro_rules! test_bit {
@@ -11,6 +13,7 @@ macro_rules! test_bit {
 
 // Hold the json button info.
 #[derive(Serialize, Deserialize, Debug, Clone)]
+#[serde(rename_all = "lowercase")]
 struct ButtonData {
     id: u8,
     action_type: String,
@@ -56,7 +59,7 @@ pub fn message_handler(msg: u32){
 /// get the button functionality from the json
 /// Fills and returns a ButtonData struct
 fn get_button_fn(button_id: u8) -> Option<ButtonData> {
-    let file_path = "resources/btn_info.json";
+    let file_path = "resources/btn_info.json"; //todo: use global variable
 
     // Read the file content
     let data = fs::read_to_string(file_path).expect("Unable to read file");
@@ -79,4 +82,29 @@ fn get_button_fn(button_id: u8) -> Option<ButtonData> {
 fn button_handler(btn: ButtonData) {
     // todo: Actually handle button actions
     println!("Action: {}", btn.action);
+
+    // Execute action
+    // let action_path = String::from("action\\") + &btn.action;
+    let action_path = "resources\\actions\\".to_owned() + &btn.action;
+
+    match execute_lua_script(&action_path) {
+        Ok(_) => println!("Lua script executed successfully."),
+        Err(e) => eprintln!("Error: {}", e),
+    }
+}
+
+fn execute_lua_script(path: &str) -> Result<(), String> {
+    // Read the Lua script from the file
+    let script = fs::read_to_string(path)
+        .map_err(|e| format!("Failed to read Lua script: {}", e))?;
+    
+    // Create a Lua instance and run the script
+    let lua = Lua::new();
+    lua.context(|ctx| {
+        ctx.load(&script)
+            .exec()
+            .map_err(|e| format!("Failed to execute Lua script: {}", e))
+    })?;
+
+    Ok(())
 }

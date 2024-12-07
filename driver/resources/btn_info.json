@@ -3,12 +3,12 @@
       {
         "id": 1,
         "action_type": "",
-        "action": "This is Button 1"
+        "action": "example.lua"
       },
       {
         "id": 2,
         "action_type": "",
-        "action": "This is Button 2"
+        "action": "spotify.lua"
       },
       {
         "id": 3,
