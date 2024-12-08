@@ -1,0 +1,8 @@
+{
+    "settings": [
+        {
+            "dev_mode": 0,
+            "btn_info": "resources/btn_info.json"
+        }
+    ]
+}
