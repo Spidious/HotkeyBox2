@@ -24,13 +24,17 @@ struct ButtonData {
 struct ButtonList {
     buttons: Vec<ButtonData>,
 }
-    
-pub fn message_handler(msg: u32){
+
+/// Return codes
+/// <0: Error
+/// 0:  Do nothing
+/// 1:  Send I
+pub fn message_handler(msg: u32) -> u8{
     // Grab the message (inner 16 bits)
     let content: u16 = (msg >> 8 & 0xFFFF) as u16;
 
     // Grab the flags
-    let _flags: u8 = (content >> 12 & 0xF) as u8;
+    let flags: u8 = (content >> 12 & 0xF) as u8;
 
     // Grab the buttons
     let buttons: u8 = (content >> 4 & 0xFF) as u8;
@@ -39,6 +43,15 @@ pub fn message_handler(msg: u32){
     let _extra: u8 = (content & 0xF) as u8;
 
     // todo: Read and handle the flags
+    if flags >> 3 & 0x1 == 1 { // Check broadcast Flag
+        // Check I'm Here content
+        if content & 0xFFF == 0xFFF {
+            println!("Found broadcast message");
+            return 1; // Return value for sending a "I see you" message
+        }
+        // todo: Later make this return differently because it should probably carry information
+        return 1;
+    }
 
     // Loop through each button, print the list of buttons being pressed
     for i in (0..8).rev() {
@@ -53,6 +66,8 @@ pub fn message_handler(msg: u32){
     }
 
     // todo: Read and handle the extra calls
+
+    return 0; // 0 indicates nothing of interest happened and nothing else needs to happen
 }
 
 /// <h2> Get Button Funciton </h2>

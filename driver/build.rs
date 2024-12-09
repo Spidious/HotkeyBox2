@@ -1,6 +1,6 @@
 use std::env;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 fn main() {
     // Get the target directory for the build (target/release or target/debug)
