@@ -62,7 +62,7 @@ fn main() {
                         if handler == 1 {
                             let broadcast_reply: u32 = 0x3480002C;
                             match serial_port.write_all(&broadcast_reply.to_be_bytes()) {
-                                Ok(_) => {println!("Sent reply");continue;}
+                                Ok(_) => {continue;}
                                 Err(e) => {
                                     eprintln!("Error: {}", e);
                                 }
