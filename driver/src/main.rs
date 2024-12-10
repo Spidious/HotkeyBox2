@@ -1,3 +1,6 @@
+// Run without terminal if not in debug
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 use handler::message_handler;
 use serialport::{self, available_ports, SerialPortInfo};
 use std::time::Duration;
@@ -5,7 +8,15 @@ use std::time::Instant;
 use std::io::{Error, ErrorKind};
 mod handler;
 
-fn main() {   
+// // todo: Figure out how to run in system tray <Decidedly not worth it>
+// todo: Stop terminal from showing when I run a lua script that requires commandline
+// todo: Setup section for config file <No longer need debug option for showing terminal>
+// todo: Change actuation to button release
+// todo: Setup C# app
+
+
+fn main() {
+    // Loop to keep the program alive even though nothing is plugged in
     loop {
         let port: String;
 

@@ -3,7 +3,7 @@
     {
       "id": 1,
       "action_type": "",
-      "action": "example.lua"
+      "action": "vscode.lua"
     },
     {
       "id": 2,
