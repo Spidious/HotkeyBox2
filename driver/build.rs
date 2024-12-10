@@ -34,7 +34,7 @@ fn copy_recursively(src: &Path, dest: &Path) -> std::io::Result<()> {
             fs::create_dir_all(&dest_path)?;
             copy_recursively(&src_path, &dest_path)?;
         } else {
-            // If it's a file, copy it
+            // If it's a file, copy it, overwriting if necessary
             fs::copy(&src_path, &dest_path)?;
         }
     }

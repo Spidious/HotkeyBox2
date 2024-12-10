@@ -13,7 +13,7 @@
     {
       "id": 3,
       "action_type": "",
-      "action": "This is Button 3"
+      "action": "browser.lua"
     },
     {
       "id": 4,
