@@ -68,9 +68,6 @@ fn main() {
                                 }
                             }
                         }
-
-                        // Debugging print
-                        // println!("{:x}", msg);
                     }
 
                     // // For debugging
