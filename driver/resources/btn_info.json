@@ -18,7 +18,7 @@
     {
       "id": 4,
       "action_type": "",
-      "action": "This is Button 4"
+      "action": "shutdown.lua"
     },
     {
       "id": 5,
